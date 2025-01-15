@@ -29,7 +29,7 @@ CREATE TABLE comptes (
   `type_compte` VARCHAR(20), 
   `solde` DECIMAL(15, 2), 
   `date_ouverture` DATE, 
-  `decouvert_autorise` BOOLEAN,
+  `decouvert_autorise` DECIMAL(15, 2),
   PRIMARY KEY (`id_compte`), 
   FOREIGN KEY (`id_client`) REFERENCES clients(`id_client`),     
   FOREIGN KEY (`id_conseiller`) REFERENCES conseillers(`id_conseiller`)
@@ -40,7 +40,8 @@ CREATE TABLE transactions (
   `id_compte` INTEGER,  
   `type` VARCHAR(20), 
   `montant` DECIMAL(15, 2), 
-  `date_transaction` DATE, 
+  `date_transaction` DATE,
+  `statut` VARCHAR(20), 
   PRIMARY KEY (`id_transaction`), 
   FOREIGN KEY (`id_compte`) REFERENCES comptes(`id_compte`)
 );
@@ -59,10 +60,19 @@ CREATE TABLE prets (
 
 /* Requêtes Update */
 
-/* Mettre à jour le numéro de téléphone d'un client spécifique */
+/* Mettre à jour le numéro de téléphone d'un client spécifique, ici le client avec l'id 1 */
+UPDATE clients
+SET telephone = '06 00 00 00 00'
+WHERE id_client = 1;
 
 
-/* Augmenter le découvert autorisé pour certains comptes */
+/* Augmenter le découvert autorisé pour certains comptes, ici, ceux qui ont un découvert autorisé en dessous de 1000€ par exemple */
+UPDATE comptes
+SET decouvert_autorise = 1000
+WHERE decouvert_autorise < 1000;
 
 
 /* Modifier le statut des transactions en attente */
+UPDATE transactions
+SET statut = 'validée'
+WHERE statut = 'en attente';
