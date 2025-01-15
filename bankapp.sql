@@ -14,12 +14,8 @@ CREATE TABLE clients (
   PRIMARY KEY (`id_client`)
 );
 
-INSERT INTO clients (nom, prenom, mot_de_passe, adresse, telephone) VALUES
-  (Martin, Jacques, Citrouille2000, 12 avenue Albert Thomas, 87000 Limoges, 06-12-12-12-12),
-  (Dubois, Jacqueline, XT1234xt,3 avenue de Landouge, 87100 Limoges, 05-24-13-14-15),
-  (Canteloup, Grégoire, Bidulle84!, 47 avenue du Limousin, 87220 Feytiat, 07-29-30-31-78),
-  (Carrère, Stéphane, Gpasdidé, 8, rue de la Garenne, 87430 Verneuil-sur-Vienne, 06-25-95-94-09),
-  (Vincent, Cécile, Moinonplus!, 75 rue du Général du Cray, 87000 Limoges, 06-84-65-12-00);
+
+
 
 CREATE TABLE conseillers (
   `id_conseiller` INTEGER NOT NULL AUTO_INCREMENT, 
@@ -62,3 +58,10 @@ CREATE TABLE prets (
   PRIMARY KEY (`id_pret`), 
   FOREIGN KEY (`id_client`) REFERENCES clients(`id_client`)
 );
+
+INSERT INTO clients (`nom`, `prenom`, `mot_de_passe`, `adresse`, `telephone`) VALUES
+  (`Martin`, `Jacques`, `Citrouille2000`, `12 avenue Albert Thomas, 87000 Limoges`, `06-12-12-12-12`),
+  (`Dubois`, `Jacqueline`, `XT1234xt`,`3 avenue de Landouge, 87100 Limoges`, `05-24-13-14-15`),
+  (`Canteloup`, `Grégoire`, `Bidulle84!`, `47 avenue du Limousin, 87220 Feytiat`, `07-29-30-31-78`),
+  (`Carrère`, `Stéphane`, `Gpasdidé`, `8, rue de la Garenne, 87430 Verneuil-sur-Vienne`, `06-25-95-94-09`),
+  (`Vincent`, `Cécile`, `Moinonplus!`, `75 rue du Général du Cray, 87000 Limoges`, `06-84-65-12-00`);
