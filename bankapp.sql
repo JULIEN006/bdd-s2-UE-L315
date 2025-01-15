@@ -59,7 +59,7 @@ CREATE TABLE prets (
   FOREIGN KEY (`id_client`) REFERENCES clients(`id_client`)
 );
 
-INSERT INTO clients ('nom', 'prenom', 'mot_de_passe', 'adresse', 'telephone') VALUES
+INSERT INTO clients (`nom`, `prenom`, `mot_de_passe`, `adresse`, `telephone`) VALUES
   ('Martin', 'Jacques', 'Citrouille2000', '12 avenue Albert Thomas, 87000 Limoges', '06-12-12-12-12'),
   ('Dubois', 'Jacqueline', 'XT1234xt','3 avenue de Landouge, 87100 Limoges', '05-24-13-14-15'),
   ('Canteloup', 'Grégoire', 'Bidulle84!', '47 avenue du Limousin, 87220 Feytiat', '07-29-30-31-78'),
