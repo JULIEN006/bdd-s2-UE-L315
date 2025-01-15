@@ -57,20 +57,12 @@ CREATE TABLE prets (
 );
 
 
-/* Requêtes Read */
+/* Requêtes Update */
 
-/* Sélectionner les clients ayant un solde supérieur à 10 000 € */
-SELECT *
-FROM comptes
-JOIN clients ON comptes.id_client = clients.id_client /* On joint la table clients pour récupérer les informations du client */
-WHERE comptes.solde > 10000;
+/* Mettre à jour le numéro de téléphone d'un client spécifique */
 
-/* Afficher toutes les transactions effectuées le mois dernier (les 30 derniers jours) */
-SELECT *
-FROM transactions
-WHERE date_transaction BETWEEN CURRENT_DATE - INTERVAL 1 MONTH AND CURRENT_DATE;
 
-/* Lister tous les comptes avec un découvert autorisé */
-SELECT *
-FROM comptes
-WHERE decouvert_autorise = TRUE;
+/* Augmenter le découvert autorisé pour certains comptes */
+
+
+/* Modifier le statut des transactions en attente */
