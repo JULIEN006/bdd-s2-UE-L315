@@ -29,7 +29,7 @@ CREATE TABLE comptes (
   `type_compte` VARCHAR(20), 
   `solde` DECIMAL(15, 2), 
   `date_ouverture` DATE, 
-  `decouvert_autorise` BOOLEAN,
+  `decouvert_autorise` DECIMAL(15, 2),
   PRIMARY KEY (`id_compte`), 
   FOREIGN KEY (`id_client`) REFERENCES clients(`id_client`),     
   FOREIGN KEY (`id_conseiller`) REFERENCES conseillers(`id_conseiller`)
@@ -40,7 +40,8 @@ CREATE TABLE transactions (
   `id_compte` INTEGER,  
   `type` VARCHAR(20), 
   `montant` DECIMAL(15, 2), 
-  `date_transaction` DATE, 
+  `date_transaction` DATE,
+  `statut` VARCHAR(20), 
   PRIMARY KEY (`id_transaction`), 
   FOREIGN KEY (`id_compte`) REFERENCES comptes(`id_compte`)
 );
@@ -56,6 +57,27 @@ CREATE TABLE prets (
   FOREIGN KEY (`id_client`) REFERENCES clients(`id_client`)
 );
 
+
+/* Requêtes Read */
+
+/* Sélectionner les clients ayant un solde supérieur à 10 000 € */
+SELECT *
+FROM comptes
+JOIN clients ON comptes.id_client = clients.id_client /* On joint la table clients pour récupérer les informations du client */
+WHERE comptes.solde > 10000;
+
+/* Afficher toutes les transactions effectuées le mois dernier (les 30 derniers jours) */
+SELECT *
+FROM transactions
+WHERE date_transaction BETWEEN CURRENT_DATE - INTERVAL 1 MONTH AND CURRENT_DATE;
+
+/* Lister tous les comptes avec un découvert autorisé */
+SELECT *
+FROM comptes
+WHERE decouvert_autorise > 0;
+
+
+/* Insertions */
 INSERT INTO clients (`nom`, `prenom`, `mot_de_passe`, `adresse`, `telephone`) VALUES
   ('Martin', 'Jacques', 'Citrouille2000', '12 avenue Albert Thomas, 87000 Limoges', '06-12-12-12-12'),
   ('Dubois', 'Jacqueline', 'XT1234xt','3 avenue de Landouge, 87100 Limoges', '05-24-13-14-15'),
@@ -96,6 +118,4 @@ INSERT INTO transactions (`id_compte`, `type`, `montant`, `date_transaction`) VA
   (4, 'virement', 400.00, '2025-02-28'),
   (5, 'debit', 300.00, '2025-02-12'),
   (5, 'virement', 350.00, '2025-02-22');
-
-
 
