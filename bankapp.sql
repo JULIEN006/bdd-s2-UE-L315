@@ -1,4 +1,4 @@
--- Créer une base de données si elle n'existe pas ;)
+ -- Créer une base de données si elle n'existe pas ;)
 CREATE DATABASE IF NOT EXISTS bankapp;
 
 -- Utiliser bankapp
