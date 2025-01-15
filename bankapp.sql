@@ -29,7 +29,7 @@ CREATE TABLE comptes (
   `type_compte` VARCHAR(20), 
   `solde` DECIMAL(15, 2), 
   `date_ouverture` DATE, 
-  `decouvert_autorise` BOOLEAN,
+  `decouvert_autorise` DECIMAL(15, 2),
   PRIMARY KEY (`id_compte`), 
   FOREIGN KEY (`id_client`) REFERENCES clients(`id_client`),     
   FOREIGN KEY (`id_conseiller`) REFERENCES conseillers(`id_conseiller`)
@@ -40,7 +40,8 @@ CREATE TABLE transactions (
   `id_compte` INTEGER,  
   `type` VARCHAR(20), 
   `montant` DECIMAL(15, 2), 
-  `date_transaction` DATE, 
+  `date_transaction` DATE,
+  `statut` VARCHAR(20), 
   PRIMARY KEY (`id_transaction`), 
   FOREIGN KEY (`id_compte`) REFERENCES comptes(`id_compte`)
 );
@@ -73,4 +74,4 @@ WHERE date_transaction BETWEEN CURRENT_DATE - INTERVAL 1 MONTH AND CURRENT_DATE;
 /* Lister tous les comptes avec un découvert autorisé */
 SELECT *
 FROM comptes
-WHERE decouvert_autorise = TRUE;
+WHERE decouvert_autorise > 0;
