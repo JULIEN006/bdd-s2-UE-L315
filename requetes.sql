@@ -39,6 +39,24 @@ WHERE statut = 'en attente';
 
 /*delete les comptes inactifs depuis 2 ans*/
 DELETE FROM comptes
-WHERE date_ouverture < DATE_SUB(CURRENT_DATE, INTERVAL 2 YEAR);
+WHERE id_compte NOT IN (
+  SELECT DISTINCT id_compte
+  FROM transactions
+  WHERE date_transaction >= DATE_active(CURDATE(), INTERVAL 2 YEAR)
+);
 
+/*Effacer les transactions refusé et annulé*/
+DELETE FROM transactions
+WHERE statut IN ('refusé', 'annulé');
 
+/*Supprime les clients n'ayant pas de compte avec des transactions actives*/
+DELETE FROM clients
+WHERE id_client NOT IN (
+  SELECT DISTINCT id_client
+  FROM comptes
+  WHERE id_compte IN (
+    SELECT DISTINCT id_compte
+    FROM transactions
+    WHERE statut ('validé')
+  )
+);
