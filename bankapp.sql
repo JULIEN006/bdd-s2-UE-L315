@@ -125,9 +125,9 @@ INSERT INTO comptes ( `id_client`, `id_conseiller`, `type_compte`, `solde`, `dat
  (5, 3, 'epargne', 2500.00, '2025-01-01', 0);
 
 INSERT INTO transactions (`id_compte`, `type`, `montant`, `date_transaction`) VALUES
-  (1, 'debit', 200.00, '2025-02-01'),
-  (1, 'virement', 500.00, '2025-02-15'),
-  (2, 'debit', 150.00, '2025-02-10'),
+  (1, 'debit', 200.00, '2025-01-01'),
+  (1, 'virement', 500.00, '2025-01-15'),
+  (2, 'debit', 150.00, '2025-01-10'),
   (2, 'virement', 300.00, '2025-02-20'),
   (3, 'virement', 100.00, '2025-02-05'),
   (3, 'virement', 700.00, '2025-02-25'),
