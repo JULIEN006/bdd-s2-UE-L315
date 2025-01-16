@@ -118,7 +118,3 @@ INSERT INTO transactions (`id_compte`, `type`, `montant`, `date_transaction`) VA
   (4, 'virement', 400.00, '2025-02-28'),
   (5, 'debit', 300.00, '2025-02-12'),
   (5, 'virement', 350.00, '2025-02-22');
-
-/*delete les comptes inactifs depuis 2 ans*/
-DELETE FROM comptes
-WHERE date_ouverture < DATE_SUB(CURRENT_DATE, INTERVAL 2 YEAR);
