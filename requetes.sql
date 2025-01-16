@@ -65,5 +65,3 @@ WHERE id_client NOT IN (
     WHERE statut ('validé')
   )
 );
-
-
