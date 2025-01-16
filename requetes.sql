@@ -37,4 +37,8 @@ UPDATE transactions
 SET statut = 'validée'
 WHERE statut = 'en attente';
 
+/*delete les comptes inactifs depuis 2 ans*/
+DELETE FROM comptes
+WHERE date_ouverture < DATE_SUB(CURRENT_DATE, INTERVAL 2 YEAR);
+
 
