@@ -97,10 +97,17 @@ INSERT INTO transactions (`id_compte`, `type`, `montant`, `date_transaction`) VA
   (5, 'debit', 300.00, '2025-02-12'),
   (5, 'virement', 350.00, '2025-02-22');
 
---counts transactions by type of account
+/*
+counts transactions by type of account 
+links both tables with id_compte 
+sends back the count classified by type of account*/
+
 SELECT comptes.type_compte,
 COUNT(transactions.id_transaction) FROM transactions 
---links both tables with id_compte
 JOIN comptes ON transactions.id_compte = comptes.id_compte
---sends back the count classified by type of account
 GROUP BY comptes.type_compte;
+
+/*AVG function calculated the average amount 
+of all savings account*/
+
+SELECT AVG(solde) FROM comptes WHERE type_compte = 'epargne';
