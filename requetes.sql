@@ -1,4 +1,5 @@
 /* Requêtes SQL */
+use bankapp;
 
 /* Requêtes Read */
 
@@ -47,7 +48,7 @@ DELETE FROM comptes
 WHERE id_compte NOT IN (
   SELECT DISTINCT id_compte
   FROM transactions
-  WHERE date_transaction >= DATE_active(CURDATE(), INTERVAL 2 YEAR)
+  WHERE date_transaction >= DATE_SUB(CURDATE(), INTERVAL 2 YEAR)
 );
 
 /*Effacer les transactions refusé et annulé*/
@@ -62,7 +63,7 @@ WHERE id_client NOT IN (
   WHERE id_compte IN (
     SELECT DISTINCT id_compte
     FROM transactions
-    WHERE statut ('validé')
+    WHERE statut = 'validé'
   )
 );
 

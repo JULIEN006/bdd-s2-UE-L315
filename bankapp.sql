@@ -24,20 +24,20 @@ CREATE TABLE conseillers(
 
 CREATE TABLE comptes (
   `id_compte` INTEGER NOT NULL AUTO_INCREMENT, 
-  `id_client` INTEGER NOT NULL,
-  `id_conseiller` INTEGER NOT NULL, 
-  `type_compte` VARCHAR(20), 
+  `id_client` INTEGER NULL,
+  `id_conseiller` INTEGER NOT NULL,
+  `type_compte` VARCHAR(20),
   `solde` DECIMAL(15, 2), 
   `date_ouverture` DATE, 
   `decouvert_autorise` DECIMAL(15, 2),
   PRIMARY KEY (`id_compte`), 
-  FOREIGN KEY (`id_client`) REFERENCES clients(`id_client`),     
+  FOREIGN KEY (`id_client`) REFERENCES clients(`id_client`) ON DELETE SET NULL,
   FOREIGN KEY (`id_conseiller`) REFERENCES conseillers(`id_conseiller`)
 );
 
 CREATE TABLE transactions (
   `id_transaction` INTEGER NOT NULL AUTO_INCREMENT, 
-  `id_compte` INTEGER,  
+  `id_compte` INTEGER,
   `type` VARCHAR(20), 
   `montant` DECIMAL(15, 2), 
   `date_transaction` DATE,
@@ -48,13 +48,13 @@ CREATE TABLE transactions (
 
 CREATE TABLE prets (
   `id_pret` INTEGER NOT NULL AUTO_INCREMENT, 
-  `id_client` INTEGER, 
+  `id_client` INTEGER NULL,
   `montant` DECIMAL(15, 2), 
   `taux_interet` DECIMAL(5, 4), 
   `date_debut` DATE,  
   `duree` INTEGER, 
-  PRIMARY KEY (`id_pret`), 
-  FOREIGN KEY (`id_client`) REFERENCES clients(`id_client`)
+  PRIMARY KEY (`id_pret`),
+  FOREIGN KEY (`id_client`) REFERENCES clients(`id_client`) ON DELETE SET NULL
 );
 
 
