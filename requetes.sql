@@ -65,3 +65,19 @@ WHERE id_client NOT IN (
     WHERE statut ('validé')
   )
 );
+
+
+/*Affichage total pret par conseiller*/
+
+SELECT 
+    c.nom AS conseiller_nom, 
+    c.prenom AS conseiller_prenom, 
+    SUM(p.montant) AS total_prets
+FROM 
+    conseillers c
+JOIN 
+    clients cl ON cl.id_client = c.id_conseiller
+JOIN 
+    prets p ON p.id_client = cl.id_client
+GROUP BY 
+    c.id_conseiller;
