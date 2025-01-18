@@ -87,7 +87,7 @@ LIMIT 5;
 SELECT *
 FROM prets
 INNER JOIN clients ON prets.id_client = clients.id_client
-WHERE prets.duree < 1;
+WHERE prets.duree < 12;
 
 
 /* Affichage total pret par conseiller */
