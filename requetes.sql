@@ -38,12 +38,15 @@ UPDATE transactions
 SET statut = 'validée'
 WHERE statut = 'en attente';
 
-/*delete les comptes inactifs depuis 2 ans*/
+
+/* Requêtes Delete */
+
+/* Delete les comptes inactifs depuis 2 ans */
 DELETE FROM comptes
 WHERE date_ouverture < DATE_SUB(CURRENT_DATE, INTERVAL 2 YEAR);
 
 
-/*delete les comptes inactifs depuis 2 ans*/
+/* Delete les comptes inactifs depuis 2 ans */
 DELETE FROM comptes
 WHERE id_compte NOT IN (
   SELECT DISTINCT id_compte
@@ -51,7 +54,7 @@ WHERE id_compte NOT IN (
   WHERE date_transaction >= DATE_SUB(CURDATE(), INTERVAL 2 YEAR)
 );
 
-/*Effacer les transactions refusé et annulé*/
+/* Effacer les transactions refusées et annulées */
 DELETE FROM transactions
 WHERE statut IN ('refusé', 'annulé');
 
@@ -67,18 +70,30 @@ WHERE id_client NOT IN (
   )
 );
 
+/* Requêtes complexes */
 
-/*Affichage total pret par conseiller*/
+/* Trouver les 5 clients les plus actifs en termes de transactions. */
+SELECT clients.id_client, clients.nom, clients.prenom,
+COUNT(transactions.id_transaction) AS nb_transactions /* On compte le nombre de transactions */
+FROM transactions
+INNER JOIN comptes ON transactions.id_compte = comptes.id_compte /* On joint les tables transactions et comptes */
+INNER JOIN clients ON comptes.id_client = clients.id_client /* On joint la table clients */
+GROUP BY clients.id_client, clients.nom, clients.prenom /* On groupe par client */
+ORDER BY nb_transactions DESC /* Et enfin on trie par nombre de transactions décroissant et limite à 5 */
+LIMIT 5;
 
-SELECT 
-    c.nom AS conseiller_nom, 
-    c.prenom AS conseiller_prenom, 
-    SUM(p.montant) AS total_prets
-FROM 
-    conseillers c
-JOIN 
-    clients cl ON cl.id_client = c.id_conseiller
-JOIN 
-    prets p ON p.id_client = cl.id_client
-GROUP BY 
-    c.id_conseiller;
+
+/* Lister les prêts dont la durée restante est inférieure à un an. */
+SELECT *
+FROM prets
+INNER JOIN clients ON prets.id_client = clients.id_client
+WHERE prets.duree < 1;
+
+
+/* Affichage total pret par conseiller */
+SELECT c.nom AS conseiller_nom, c.prenom AS conseiller_prenom, 
+SUM(p.montant) AS total_prets
+FROM conseillers c
+JOIN clients cl ON cl.id_client = c.id_conseiller
+JOIN prets p ON p.id_client = cl.id_client
+GROUP BY c.id_conseiller;
