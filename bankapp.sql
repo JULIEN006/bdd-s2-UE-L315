@@ -89,21 +89,6 @@ INSERT INTO comptes ( `id_client`, `id_conseiller`, `type_compte`, `solde`, `dat
  (5, 3, 'courant commun', 1900.00, '2025-01-01', 1), 
  (5, 3, 'epargne', 2500.00, '2025-01-01', 0);
 
-/*
-counts transactions by type of account 
-links both tables with id_compte 
-sends back the count classified by type of account*/
-
-SELECT comptes.type_compte,
-COUNT(transactions.id_transaction) FROM transactions 
-JOIN comptes ON transactions.id_compte = comptes.id_compte
-GROUP BY comptes.type_compte;
-
-/*AVG function calculated the average amount 
-of all savings account*/
-
-SELECT AVG(solde) FROM comptes WHERE type_compte = 'epargne';
-
 INSERT INTO transactions (`id_compte`, `type`, `montant`, `date_transaction`, `statut`) VALUES
   (1, 'debit', 200.00, '2025-01-01', 'validé'),
   (1, 'virement', 300.00, '2025-01-05', 'en attente'),

@@ -48,10 +48,9 @@ WHERE date_ouverture < DATE_SUB(CURRENT_DATE, INTERVAL 2 YEAR);
 
 /* Delete les comptes inactifs depuis 2 ans */
 DELETE FROM comptes
-WHERE id_compte NOT IN (
-  SELECT DISTINCT id_compte
-  FROM transactions
-  WHERE date_transaction >= DATE_SUB(CURDATE(), INTERVAL 2 YEAR)
+WHERE id_compte NOT IN (SELECT DISTINCT id_compte
+FROM transactions
+WHERE date_transaction >= DATE_SUB(CURDATE(), INTERVAL 2 YEAR)
 );
 
 /* Effacer les transactions refusées et annulées */
@@ -60,17 +59,28 @@ WHERE statut IN ('refusé', 'annulé');
 
 /*Supprime les clients n'ayant pas de compte avec des transactions actives*/
 DELETE FROM clients
-WHERE id_client NOT IN (
-  SELECT DISTINCT id_client
-  FROM comptes
-  WHERE id_compte IN (
-    SELECT DISTINCT id_compte
-    FROM transactions
-    WHERE statut = 'validé'
-  )
+WHERE id_client NOT IN (SELECT DISTINCT id_client
+FROM comptes
+WHERE id_compte IN (
+SELECT DISTINCT id_compte
+FROM transactions
+WHERE statut = 'validé'
+)
 );
 
 /* Requêtes complexes */
+
+/* Compte les transactions par type de compte relie les deux tables avec id_compte renvoie le décompte classé par type de compte */
+SELECT comptes.type_compte,
+COUNT(transactions.id_transaction)
+FROM transactions 
+JOIN comptes ON transactions.id_compte = comptes.id_compte
+GROUP BY comptes.type_compte;
+
+/* Calcule le montant moyen de tous les comptes d'épargne */
+SELECT AVG(solde)
+FROM comptes
+WHERE type_compte = 'epargne';
 
 /* Trouver les 5 clients les plus actifs en termes de transactions. */
 SELECT clients.id_client, clients.nom, clients.prenom,
@@ -82,13 +92,11 @@ GROUP BY clients.id_client, clients.nom, clients.prenom /* On groupe par client 
 ORDER BY nb_transactions DESC /* Et enfin on trie par nombre de transactions décroissant et limite à 5 */
 LIMIT 5;
 
-
 /* Lister les prêts dont la durée restante est inférieure à un an. */
 SELECT *
 FROM prets
 INNER JOIN clients ON prets.id_client = clients.id_client
 WHERE prets.duree < 12;
-
 
 /* Affichage total pret par conseiller */
 SELECT c.nom AS conseiller_nom, c.prenom AS conseiller_prenom, 
